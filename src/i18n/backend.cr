@@ -79,11 +79,9 @@ module I18n
       end
 
       # Prepend locale to the keys
-      shifted_keys = keys.unshift(locale)
+      keys.unshift(locale)
 
-      shifted_keys = [] of String if shifted_keys.nil?
-
-      translation = data.not_nil!.dig?(shifted_keys.dup).try &.to_s
+      translation = data.not_nil!.dig?(keys.dup).try &.to_s
       raise TranslationNotFoundError.new(keys, locale) unless translation
 
       if count.nil?

@@ -17,6 +17,11 @@ macro define_dig?(klass)
       value.dig?(keys) if value.is_a?({{klass.id}})
     end
   end
+
+  # manage the case when the value is nil
+  def dig?(keys : Nil)
+    nil
+  end
 end
 
 class Hash(K, V)
