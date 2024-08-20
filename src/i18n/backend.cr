@@ -80,8 +80,19 @@ module I18n
 
       # Prepend locale to the keys
       keys.unshift(locale)
+      begin
+        translation = data.not_nil!.dig?(keys.dup).try &.to_s
+      rescue
+        pp "Error in Backend#translate"
+        pp "data"
+        pp data
+        pp "keys"
+        pp keys
+        pp "locale"
+        pp locale
+        translation = nil
+      end
 
-      translation = data.not_nil!.dig?(keys.dup).try &.to_s
       raise TranslationNotFoundError.new(keys, locale) unless translation
 
       if count.nil?
